@@ -99,7 +99,7 @@ do
   vim.g.maplocalleader = ' '
 
   -- Set to true if you have a Nerd Font installed and selected in the terminal
-  vim.g.have_nerd_font = false
+  vim.g.have_nerd_font = true
 
   -- [[ Setting options ]]
   --  See `:help vim.o`
@@ -135,7 +135,7 @@ do
   vim.o.smartcase = true
 
   -- Keep signcolumn on by default
-  vim.o.signcolumn = 'yes'
+  vim.o.signcolumn = 'auto'
 
   -- Decrease update time
   vim.o.updatetime = 250
@@ -165,7 +165,7 @@ do
   vim.o.cursorline = true
 
   -- Minimal number of screen lines to keep above and below the cursor.
-  vim.o.scrolloff = 10
+  vim.o.scrolloff = 8
 
   -- if performing an operation that would fail due to unsaved changes in the buffer (like `:q`),
   -- instead raise a dialog asking if you wish to save the current file(s)
@@ -219,6 +219,11 @@ do
   -- or just use <C-\><C-n> to exit terminal mode
   vim.keymap.set('t', '<Esc><Esc>', '<C-\\><C-n>', { desc = 'Exit terminal mode' })
 
+  vim.keymap.set({ 'n' }, 'j', 'gj')
+  vim.keymap.set({ 'n' }, 'k', 'gk')
+  vim.keymap.set({ 'n', 'v', 'o' }, 'L', '$')
+  vim.keymap.set({ 'n', 'v', 'o' }, 'H', '^')
+
   -- TIP: Disable arrow keys in normal mode
   -- vim.keymap.set('n', '<left>', '<cmd>echo "Use h to move!!"<CR>')
   -- vim.keymap.set('n', '<right>', '<cmd>echo "Use l to move!!"<CR>')
@@ -226,19 +231,23 @@ do
   -- vim.keymap.set('n', '<down>', '<cmd>echo "Use j to move!!"<CR>')
 
   -- Keybinds to make split navigation easier.
-  --  Use CTRL+<hjkl> to switch between windows
+  --  Use ALT+<hjkl> to switch between windows
   --
   --  See `:help wincmd` for a list of all window commands
-  vim.keymap.set('n', '<C-h>', '<C-w><C-h>', { desc = 'Move focus to the left window' })
-  vim.keymap.set('n', '<C-l>', '<C-w><C-l>', { desc = 'Move focus to the right window' })
-  vim.keymap.set('n', '<C-j>', '<C-w><C-j>', { desc = 'Move focus to the lower window' })
-  vim.keymap.set('n', '<C-k>', '<C-w><C-k>', { desc = 'Move focus to the upper window' })
+  vim.keymap.set({ 'n' }, '<A-h>', '<C-w>h', { desc = 'Move focus to the left window' })
+  vim.keymap.set({ 'n' }, '<A-j>', '<C-w>j', { desc = 'Move focus to the right window' })
+  vim.keymap.set({ 'n' }, '<A-k>', '<C-w>k', { desc = 'Move focus to the lower window' })
+  vim.keymap.set({ 'n' }, '<A-l>', '<C-w>l', { desc = 'Move focus to the upper window' })
+  vim.keymap.set({ 't', 'i' }, '<A-h>', '<C-\\><C-n><C-w>h', { desc = 'Move focus to the left window' })
+  vim.keymap.set({ 't', 'i' }, '<A-j>', '<C-\\><C-n><C-w>j', { desc = 'Move focus to the right window' })
+  vim.keymap.set({ 't', 'i' }, '<A-k>', '<C-\\><C-n><C-w>k', { desc = 'Move focus to the lower window' })
+  vim.keymap.set({ 't', 'i' }, '<A-l>', '<C-\\><C-n><C-w>l', { desc = 'Move focus to the upper window' })
 
   -- NOTE: Some terminals have colliding keymaps or are not able to send distinct keycodes
-  -- vim.keymap.set("n", "<C-S-h>", "<C-w>H", { desc = "Move window to the left" })
-  -- vim.keymap.set("n", "<C-S-l>", "<C-w>L", { desc = "Move window to the right" })
-  -- vim.keymap.set("n", "<C-S-j>", "<C-w>J", { desc = "Move window to the lower" })
-  -- vim.keymap.set("n", "<C-S-k>", "<C-w>K", { desc = "Move window to the upper" })
+  vim.keymap.set('n', '<A-S-h>', '<C-w>H', { desc = 'Move window to the left' })
+  vim.keymap.set('n', '<A-S-l>', '<C-w>L', { desc = 'Move window to the right' })
+  vim.keymap.set('n', '<A-S-j>', '<C-w>J', { desc = 'Move window to the lower' })
+  vim.keymap.set('n', '<A-S-k>', '<C-w>K', { desc = 'Move window to the upper' })
 
   -- [[ Basic Autocommands ]]
   --  See `:help lua-guide-autocommands`
@@ -423,18 +432,26 @@ do
   -- change the command under that to load whatever the name of that colorscheme is.
   --
   -- If you want to see what colorschemes are already installed, you can use `:Telescope colorscheme`.
-  vim.pack.add { gh 'folke/tokyonight.nvim' }
-  ---@diagnostic disable-next-line: missing-fields
-  require('tokyonight').setup {
-    styles = {
-      comments = { italic = false }, -- Disable italics in comments
-    },
+  -- vim.pack.add { gh 'folke/tokyonight.nvim' }
+  -- ---@diagnostic disable-next-line: missing-fields
+  -- require('tokyonight').setup {
+  --   styles = {
+  --     comments = { italic = false }, -- Disable italics in comments
+  --   },
+  -- }
+
+  vim.pack.add {
+    gh 'ellisonleao/gruvbox.nvim',
   }
+  require('gruvbox').setup({
+    transparent_mode = true,
+  })
 
   -- Load the colorscheme here.
   -- Like many other themes, this one has different styles, and you could load
   -- any other, such as 'tokyonight-storm', 'tokyonight-moon', or 'tokyonight-day'.
-  vim.cmd.colorscheme 'tokyonight-night'
+  -- vim.cmd.colorscheme 'retrobox'
+  vim.cmd.colorscheme 'gruvbox'
 
   -- Highlight todo, notes, etc in comments
   vim.pack.add { gh 'folke/todo-comments.nvim' }
@@ -948,7 +965,7 @@ do
   vim.pack.add { { src = gh 'nvim-treesitter/nvim-treesitter', version = 'main' } }
 
   -- Ensure basic parsers are installed
-  local parsers = { 'bash', 'c', 'diff', 'html', 'lua', 'luadoc', 'markdown', 'markdown_inline', 'query', 'vim', 'vimdoc' }
+  local parsers = { 'bash', 'c', 'diff', 'html', 'lua', 'luadoc', 'markdown', 'markdown_inline', 'query', 'vim', 'vimdoc', 'fish' }
   require('nvim-treesitter').install(parsers)
 
   ---@param buf integer
