@@ -503,6 +503,9 @@ do
   ---@diagnostic disable-next-line: duplicate-set-field
   statusline.section_location = function() return '%2l:%-2v' end
 
+  require('mini.pairs').setup()
+  require('mini.statuscolumn').setup()
+
   -- ... and there is more!
   --  Check out: https://github.com/nvim-mini/mini.nvim
 end
@@ -1035,7 +1038,8 @@ do
   -- require 'kickstart.plugins.indent_line'
   -- require 'kickstart.plugins.lint'
   -- require 'kickstart.plugins.autopairs'
-  -- require 'kickstart.plugins.neo-tree'
+  require 'kickstart.plugins.neo-tree'
+ vim.keymap.set('n', '<leader>b', ":Neotree toggle show buffers right<cr>", { desc = 'Toggle [B]uffers'})
 
   -- NOTE: You can add your own plugins, configuration, etc. in `lua/custom/plugins/*.lua`.
   --
