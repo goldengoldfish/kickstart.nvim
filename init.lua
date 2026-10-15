@@ -1039,7 +1039,7 @@ do
   -- require 'kickstart.plugins.lint'
   -- require 'kickstart.plugins.autopairs'
   require 'kickstart.plugins.neo-tree'
- vim.keymap.set('n', '<leader>b', ":Neotree toggle show buffers right<cr>", { desc = 'Toggle [B]uffers'})
+ vim.keymap.set('n', '<leader>b', "<Cmd>Neotree toggle show buffers right<CR>", { desc = 'Toggle [B]uffers', silent=true })
 
   -- NOTE: You can add your own plugins, configuration, etc. in `lua/custom/plugins/*.lua`.
   --
