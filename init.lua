@@ -1041,10 +1041,9 @@ do
   require 'kickstart.plugins.neo-tree'
  vim.keymap.set('n', '<leader>b', "<Cmd>Neotree toggle show buffers right<CR>", { desc = 'Toggle [B]uffers', silent=true })
 
-  vim.pack.add{ gh 'norcalli/nvim-colorizer.lua' }
-  require 'colorizer'.setup {
-    '*';
-    css = { rgb_fun = true; RRGGBBAA = true }
+  vim.pack.add { gh 'catgoose/nvim-colorizer.lua' }
+  require('colorizer').setup {
+    options = { parsers = { css = true } },
   }
 
   -- NOTE: You can add your own plugins, configuration, etc. in `lua/custom/plugins/*.lua`.
